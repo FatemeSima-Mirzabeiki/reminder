@@ -38,7 +38,7 @@
                                     {% endif %}
                                     <td><a href="{{ task.category.get_absolute_url }}" style="text-decoration: none">{{ task.category.name | custom_title }}</a></td>
                                     <td>{{ task.due_date }}</td>
-                                    <td>{% timesince_tag task.due_date %}</td>
+                                    <td>{% t_tag task.due_date %}</td>
                                     {% if task.done %}
                                         <td>
                                             <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
@@ -92,7 +92,7 @@
                                     {% endif %}
                                     <td><a href="{{ task.category.get_absolute_url }}" style="text-decoration: none">{{ task.category.name | custom_title }}</a></td>
                                     <td>{{ task.due_date }}</td>
-                                    <td>{% timesince_tag task.due_date %}</td>
+                                    <td>{% t_tag task.due_date %}</td>
                                     {% if task.done %}
                                         <td>
                                             <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>

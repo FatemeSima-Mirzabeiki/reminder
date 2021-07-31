@@ -1,5 +1,5 @@
 from django import template
-from django.utils.timesince import timesince
+from django.utils.timesince import timesince, timeuntil
 from django.utils.timezone import now
 
 register = template.Library()
@@ -11,6 +11,13 @@ def title_filter(value):
 
 
 @register.simple_tag()
-def timesince_tag(value):
-    """Format a date as the time since that date (i.e. "4 days, 6 hours")."""
-    return timesince(value, now=now())
+def t_tag(value, arg=now()):
+    """Format a date as the time until that date (i.e. "4 days, 6 hours")."""
+    if not value:
+        return ''
+    try:
+        if value < now():
+            return f'- {str(timeuntil(arg, value))}'
+        return timeuntil(value, arg)
+    except (ValueError, TypeError):
+        return ''

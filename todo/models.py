@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Count
-from django.db.models.functions import Now
+# from django.db.models.functions import Now
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
 from todo.utils import get_random_code
