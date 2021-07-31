@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Separated Tasks{% endblock %}
+{% block content %}
+    {% if tasks %}
+        <h6>...Click on the title of each task to see the details...</h6>
+        <h6>...Click on the name of each task`s category to see the details...</h6>
+        <hr>
+        {% if tasks.non_expired_list %}
+            <h5>Non-expired Tasks</h5>
+            <ul style="list-style-type: none">
+                <li>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">Remaining Time</th>
+                                <th scope="col">Done</th>
+                                <th scope="col">Edit - Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks.non_expired_list %}
+                                <tr>
+                                    <th scope="row">{{ task.id }}</th>
+    {#                                <td><a href="{% url task.get_absolute_url %}" style="text-decoration: none">{{ task.title | custom_title }}</a></td>#}
+                                    <td><a href="{{ task.get_absolute_url }}" style="text-decoration: none">{{ task.title | custom_title }}</a></td>
+                                    {% if task.priority == 'H' %}
+                                        <td><p class="alert alert-danger p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                        {% elif task.priority == 'M' %}
+                                            <td><p class="alert alert-warning p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                        {% else %}
+                                            <td><p class="alert alert-info p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                    {% endif %}
+                                    <td><a href="{{ task.category.get_absolute_url }}" style="text-decoration: none">{{ task.category.name | custom_title }}</a></td>
+                                    <td>{{ task.due_date }}</td>
+                                    <td>{% timesince_tag task.due_date %}</td>
+                                    {% if task.done %}
+                                        <td>
+                                            <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                                        </td>
+                                        {% else %}
+                                            <td>
+                                                <i class="fa fa-circle-o text-danger" aria-hidden="true"></i>
+                                            </td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="{% url 'task_edit' task.slug %}" style="text-decoration: none"><i class="fas fa-edit text-success me-3"></i></a>
+                                        <a href="#" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>
+    {#                                    <a href="{% url 'task_delete' task.slug %}" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        {% endif %}
+        {% if tasks.expired_list %}
+            <h5>Expired Tasks</h5>
+            <ul style="list-style-type: none">
+                <li>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Due Date</th>
+                                <th scope="col">Elapsed Time</th>
+                                <th scope="col">Done</th>
+                                <th scope="col">Edit - Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks.expired_list %}
+                                <tr>
+                                    <th scope="row">{{ task.id }}</th>
+    {#                                <td><a href="{% url task.get_absolute_url %}" style="text-decoration: none">{{ task.title | custom_title }}</a></td>#}
+                                    <td><a href="{{ task.get_absolute_url }}" style="text-decoration: none">{{ task.title | custom_title }}</a></td>
+                                    {% if task.priority == 'H' %}
+                                        <td><p class="alert alert-danger p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                        {% elif task.priority == 'M' %}
+                                            <td><p class="alert alert-warning p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                        {% else %}
+                                            <td><p class="alert alert-info p-0 m-0 text-center">{{ task.get_priority_display }}</p></td>
+                                    {% endif %}
+                                    <td><a href="{{ task.category.get_absolute_url }}" style="text-decoration: none">{{ task.category.name | custom_title }}</a></td>
+                                    <td>{{ task.due_date }}</td>
+                                    <td>{% timesince_tag task.due_date %}</td>
+                                    {% if task.done %}
+                                        <td>
+                                            <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                                        </td>
+                                        {% else %}
+                                            <td>
+                                                <i class="fa fa-circle-o text-danger" aria-hidden="true"></i>
+                                            </td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="{% url 'task_edit' task.slug %}" style="text-decoration: none"><i class="fas fa-edit text-success me-3"></i></a>
+                                        <a href="#" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>
+    {#                                    <a href="{% url 'task_delete' task.slug %}" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        {% endif %}
+        {% else %}
+            <h5>...There is no task...</h5>
+    {% endif %}
+{% endblock %}

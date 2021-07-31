@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+    {% if categories %}
+        <h6>...Click on the name of each category to see the details...</h6>
+        <hr>
+        {% if categories.non_empty_list %}
+            <h5>Non-empty Categories</h5>
+            <ul style="list-style-type: none">
+                <li>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Edit - Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories.non_empty_list %}
+                                <tr>
+                                    <th scope="row">{{ category.id }}</th>
+                                    <td><a href="{{ category.get_absolute_url }}" style="text-decoration: none">{{ category.name | custom_title }}</a></td>
+                                    <td>
+                                        <a href="{% url 'category_edit' category.slug %}" style="text-decoration: none"><i class="fas fa-edit text-success me-3"></i></a>
+                                        <a href="{% url 'category_delete' category.slug %}" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        {% endif %}
+
+        <br>
+
+        {% if categories.empty_list %}
+            <h5>Empty Categories</h5>
+            <ul style="list-style-type: none">
+                <li>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Edit - Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories.empty_list %}
+                                <tr>
+                                    <th scope="row">{{ category.id }}</th>
+                                    <td><a href="{{ category.get_absolute_url }}" style="text-decoration: none">{{ category.name | custom_title }}</a></td>
+                                    <td>
+                                        <a href="{% url 'category_edit' category.slug %}" style="text-decoration: none"><i class="fas fa-edit text-success me-3"></i></a>
+                                        <a href="#" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>
+{#                                        <a href="{% url 'category_delete' category.slug %}" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        {% endif %}
+        {% else %}
+            <h5>...There is no category...</h5>
+    {% endif %}
+{% endblock %}
+
+
+

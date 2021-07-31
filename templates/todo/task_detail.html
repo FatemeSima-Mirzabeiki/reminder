@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load custom_tags %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="font-weight-bold">Title: {{ object.title | custom_title }}</h3>
+        </div>
+        <div class="card-body">
+            <h5 style="display: inline">Description: </h5>
+            <p style="display: inline">{{ object.description }}</p>
+            <hr>
+            <h5 style="display: inline">Priority: </h5>
+            {% if object.priority == 'H' %}
+                <p class="alert alert-danger p-1 m-1 text-center" style="display: inline">{{ object.get_priority_display }}</p>
+                {% elif task.priority == 'M' %}
+                    <p class="alert alert-warning p-1 m-1 text-center" style="display: inline">{{ object.get_priority_display }}</p>
+                {% else %}
+                    <p class="alert alert-info p-1 m-1 text-center" style="display: inline">{{ object.get_priority_display }}</p>
+            {% endif %}
+            <hr>
+            <h5 style="display: inline">Category: </h5>
+            <p style="display: inline"><a href="{{ object.category.get_absolute_url }}" style="text-decoration: none">{{ object.category.name | custom_title }}</a></p>
+            <hr>
+            <h5 style="display: inline">Due Date: </h5>
+            <p style="display: inline">{{ object.due_date }}</p>
+            <hr>
+            <h5 style="display: inline">Remaining Time: </h5>
+            <p style="display: inline">{% timesince_tag object.due_date %}</p>
+            <hr>
+            <h5 style="display: inline">Done: </h5>
+            {% if object.done %}
+                <p style="display: inline"><i class="fa fa-check-circle-o text-success" aria-hidden="true"></i></p>
+                {% else %}
+                    <p style="display: inline"><i class="fa fa-circle-o text-danger" aria-hidden="true"></i></p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-center text-muted">
+            <a href="{% url 'task_list' %}">All Tasks</a> |
+            <a href="{% url 'task_edit' object.slug %}" style="text-decoration: none"><i class="fas fa-edit text-success me-3"></i></a>|
+            <a href="#" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>
+{#            <a href="{% url 'task_delete' object.slug %}" style="text-decoration: none"><i class="fas fa-trash-alt text-danger me-3"></i></a>#}
+        </div>
+    </div>
+{% endblock content %}
